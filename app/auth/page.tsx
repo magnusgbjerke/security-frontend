@@ -9,13 +9,17 @@ const Page = () => {
   async function handleClick() {
     const url = "http://localhost:8081/api/user";
 
-    let headers;
+    let headers = {};
+
     if (session) {
       headers = {
         Authorization: `Bearer ${session?.accessToken}`,
+        "Access-Control-Allow-Origin": "http://localhost:3000",
       };
     } else {
-      headers = {};
+      headers = {
+        "Access-Control-Allow-Origin": "http://localhost:3000",
+      };
     }
 
     try {
