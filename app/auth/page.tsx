@@ -9,9 +9,14 @@ const Page = () => {
   async function handleClick() {
     const url = "http://localhost:8081/api/user";
 
-    const headers = {
-      Authorization: `Bearer ${session?.accessToken}`,
-    };
+    let headers;
+    if (session) {
+      headers = {
+        Authorization: `Bearer ${session?.accessToken}`,
+      };
+    } else {
+      headers = {};
+    }
 
     try {
       const response = await fetch(url, {
@@ -58,15 +63,6 @@ const Page = () => {
             <br />
             <button onClick={() => signOut()}>Sign Out</button>
             <br />
-            <Link
-              href={`${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/logout`}
-              className=""
-              onClick={() => {
-                signOut();
-              }}
-            >
-              Sign Out Fully
-            </Link>
           </>
         )}
       </div>
