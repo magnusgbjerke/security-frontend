@@ -18,7 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <SessionProvider>
-        <body className={`${roboto.className} antialiased`}>{children}</body>
+        <body className={`${roboto.className} antialiased`}>
+          <div className="relative w-full h-screen bg-black">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white">
+              {children}
+            </div>
+          </div>
+        </body>
       </SessionProvider>
     </html>
   );
