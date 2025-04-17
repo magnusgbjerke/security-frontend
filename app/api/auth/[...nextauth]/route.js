@@ -45,6 +45,11 @@ export const authOptions = {
       issuer: process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER,
     }),
   ],
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 60 * 24, // 24 hours session on frontend
+    updateAge: 5 * 60, // refresh tokens every 5 minutes of activity
+  },
   callbacks: {
     async jwt({ token, user, account }) {
       const now = Date.now();
