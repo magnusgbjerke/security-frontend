@@ -7,7 +7,7 @@ const Page = () => {
   const { data: session } = useSession();
 
   async function handleClick() {
-    const url = "http://localhost:8081/api/user";
+    const url = "http://localhost:8080/api/user/user-info";
 
     let headers = {};
 
@@ -51,7 +51,7 @@ const Page = () => {
             <p className="text-lg">
               New user?{" "}
               <Link
-                href="http://localhost:8080/realms/spring-boot-realm/protocol/openid-connect/registrations?client_id=spring-boot-app&redirect_uri=http://localhost:8081/login/oauth2/code/keycloak&response_type=code&scope=openid"
+                href={`${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/registrations?client_id=${process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/login/oauth2/code/keycloak&response_type=code&scope=openid`}
                 className="text-blue-400 hover:underline"
               >
                 Create an account
@@ -64,7 +64,15 @@ const Page = () => {
           <p>Signed in as {session?.user?.name}</p>
           <button onClick={handleClick}>test</button>
           <br />
-          <button onClick={() => signOut()}>Sign Out</button>
+          <button
+            onClick={() =>
+              signOut({
+                callbackUrl: `${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/logout`,
+              })
+            }
+          >
+            Sign Out
+          </button>
           <br />
           <Link
             href={`${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/logout?redirect_uri=http://localhost:3000/auth`}

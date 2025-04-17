@@ -12,4 +12,8 @@ declare module "next-auth" {
     access_token?: string;
     id_token?: string;
   }
+
+  interface DefaultUser {
+    roles?: string[];
+  }
 }
