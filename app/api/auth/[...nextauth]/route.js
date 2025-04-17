@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
 
 export const authOptions = {
+  // Configure one or more authentication providers
   providers: [
     KeycloakProvider({
       clientId: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID,
@@ -11,18 +12,15 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, account }) {
-      if (account && account.access_token) {
+      // Persist the OAuth access_token to the token right after signin
+      if (account) {
         token.accessToken = account.access_token;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token?.sub) {
-        session.user.id = token.sub;
-      }
-      if (token?.accessToken) {
-        session.accessToken = token.accessToken;
-      }
+      // Send properties to the client, like an access_token from a provider.
+      session.accessToken = token.accessToken;
       return session;
     },
   },
