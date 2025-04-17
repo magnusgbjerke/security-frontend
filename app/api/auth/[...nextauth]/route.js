@@ -1,9 +1,7 @@
 import NextAuth from "next-auth";
 import KeycloakProvider from "next-auth/providers/keycloak";
-import type { NextAuthOptions } from "next-auth";
 
-/* eslint-disable-next-line */
-async function refreshAccessToken(token: any) {
+async function refreshAccessToken(token) {
   try {
     const url = `${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/token`;
 
@@ -13,8 +11,8 @@ async function refreshAccessToken(token: any) {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
-        client_id: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID!,
-        client_secret: process.env.KEYCLOAK_CLIENT_SECRET!, // optional if public client
+        client_id: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID,
+        client_secret: process.env.KEYCLOAK_CLIENT_SECRET, // optional if public client
         grant_type: "refresh_token",
         refresh_token: token.refreshToken,
       }),
@@ -39,18 +37,14 @@ async function refreshAccessToken(token: any) {
   }
 }
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   providers: [
     KeycloakProvider({
-      clientId: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID!,
-      clientSecret: process.env.KEYCLOAK_CLIENT_SECRET!,
-      issuer: process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER!,
+      clientId: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID,
+      clientSecret: process.env.KEYCLOAK_CLIENT_SECRET,
+      issuer: process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER,
     }),
   ],
-  session: {
-    strategy: "jwt",
-    maxAge: 60 * 60, // 1 hour
-  },
   callbacks: {
     async jwt({ token, user, account }) {
       const now = Date.now();
