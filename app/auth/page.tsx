@@ -71,25 +71,9 @@ const Page = () => {
           <p>Signed in as {session?.user?.name}</p>
           <button onClick={handleClick}>test</button>
           <br />
-          <button
-            onClick={() =>
-              signOut({
-                callbackUrl: `${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/logout`,
-              })
-            }
-          >
+          <button onClick={() => signOut({ callbackUrl: "/" })}>
             Sign Out
           </button>
-          <br />
-          <Link
-            href={`${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/logout?redirect_uri=http://localhost:3000/auth`}
-            className=""
-            onClick={() => {
-              signOut();
-            }}
-          >
-            Sign Out Fully
-          </Link>
         </>
       )}
     </>

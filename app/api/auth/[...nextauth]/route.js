@@ -37,7 +37,9 @@ async function refreshAccessToken(token) {
   }
 }
 
-export const authOptions = {
+const authOptions = {
+  secret: process.env.AUTH_SECRET,
+
   providers: [
     KeycloakProvider({
       clientId: process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID,
