@@ -1,7 +1,6 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
-import Link from "next/link";
 import { useState } from "react";
 
 const Page = () => {
@@ -63,12 +62,19 @@ const Page = () => {
           <div className="mt-6">
             <p className="text-lg">
               New user?{" "}
-              <Link
-                href={`${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/registrations?client_id=${process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/login/oauth2/code/keycloak&response_type=code&scope=openid`}
-                className="text-blue-400 hover:underline"
+              <button
+                onClick={async () => {
+                  window.location.href =
+                    `${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/registrations` +
+                    `?client_id=${encodeURIComponent(process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID!)}` +
+                    `&redirect_uri=${encodeURIComponent("http://localhost:3000/auth/registration")}` +
+                    `&response_type=code` +
+                    `&scope=openid`;
+                }}
+                className="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 Create an account
-              </Link>
+              </button>
             </p>
           </div>
         </>
@@ -88,7 +94,6 @@ const Page = () => {
           <br />
           <button
             onClick={async () => {
-              // Redirect to Keycloak logout
               window.location.href = `${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/logout?client_id=${process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID}&post_logout_redirect_uri=http://localhost:3000/auth/signout`;
             }}
             className="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
