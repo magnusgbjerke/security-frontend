@@ -2,17 +2,11 @@
 
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Page = () => {
   const { data: session } = useSession();
   const [state, setState] = useState("");
-
-  useEffect(() => {
-    if (session?.error === "RefreshAccessTokenError") {
-      signIn(); // Force sign in to hopefully resolve error
-    }
-  }, [session]);
 
   async function handleClick() {
     const url = "http://localhost:8080/api/user-info3";
@@ -93,7 +87,18 @@ const Page = () => {
           </p>
           <br />
           <button
-            onClick={() => signOut({ callbackUrl: "/auth" })}
+            onClick={async () => {
+              await signOut({ redirect: false });
+            }}
+            className="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            signOut()
+          </button>
+          <button
+            onClick={async () => {
+              // Redirect to Keycloak logout
+              window.location.href = `${process.env.NEXT_PUBLIC_KEYCLOAK_ISSUER}/protocol/openid-connect/logout?client_id=${process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID}&post_logout_redirect_uri=http://localhost:3000/auth/signout`;
+            }}
             className="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Sign Out

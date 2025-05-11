@@ -1,0 +1,21 @@
+"use client";
+
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+const Page = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchVouchers = async () => {
+      await signOut({ redirect: false });
+    };
+    fetchVouchers();
+    router.push("/");
+  }, []);
+
+  return <div>Redirecting...</div>;
+};
+
+export default Page;
