@@ -8,10 +8,10 @@ const Page = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchVouchers = async () => {
+    const activateSession = async () => {
       await signOut({ redirect: false });
     };
-    fetchVouchers();
+    activateSession();
     router.push("/auth");
   }, []);
 
