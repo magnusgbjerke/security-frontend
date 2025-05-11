@@ -12,7 +12,7 @@ const Page = () => {
       await signOut({ redirect: false });
     };
     fetchVouchers();
-    router.push("/");
+    router.push("/auth");
   }, []);
 
   return <div>Redirecting...</div>;

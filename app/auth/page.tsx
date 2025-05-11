@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -86,14 +86,6 @@ const Page = () => {
             Data from server: <br /> {state}
           </p>
           <br />
-          <button
-            onClick={async () => {
-              await signOut({ redirect: false });
-            }}
-            className="px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            signOut()
-          </button>
           <button
             onClick={async () => {
               // Redirect to Keycloak logout
